@@ -2,42 +2,179 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes bounce-in {
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+.font-display {
+  font-family: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+}
+
+/* ============ 弹窗动画 ============ */
+
+/* 遮罩淡入 */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out both;
+}
+
+/* 卡片弹簧入场 */
+@keyframes modal-pop {
   0% {
-    transform: scale(0.3);
+    transform: scale(0.55) translateY(32px);
     opacity: 0;
   }
-  50% {
-    transform: scale(1.05);
+  55% {
+    transform: scale(1.045) translateY(-6px);
     opacity: 1;
   }
-  70% {
-    transform: scale(0.95);
+  75% {
+    transform: scale(0.985) translateY(2px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+.animate-modal-pop {
+  animation: modal-pop 0.55s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+}
+
+/* 内容逐行上浮 */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-rise-in {
+  animation: rise-in 0.45s ease-out both;
+}
+
+/* 冠军棋子浮动 */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+.animate-float-y {
+  animation: float-y 2.4s ease-in-out infinite;
+}
+
+/* 冠军光环脉冲 */
+@keyframes ring-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(244, 114, 182, 0.55); }
+  100% { box-shadow: 0 0 0 20px rgba(244, 114, 182, 0); }
+}
+.animate-ring-pulse {
+  animation: ring-pulse 1.5s ease-out infinite;
+}
+
+/* 卡片顶部流光扫过 */
+@keyframes shine-sweep {
+  0% { transform: translateX(-130%) skewX(-18deg); }
+  60%, 100% { transform: translateX(230%) skewX(-18deg); }
+}
+.animate-shine-sweep {
+  animation: shine-sweep 2.6s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+
+/* ============ 彩带 ============ */
+@keyframes confetti-fall {
+  0% {
+    transform: translate3d(0, -6vh, 0) rotate(0deg);
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift, 0px), 106vh, 0) rotate(680deg);
+    opacity: 0;
+  }
+}
+.confetti-piece {
+  position: absolute;
+  top: -6vh;
+  animation-name: confetti-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+/* ============ 棋盘相关 ============ */
+
+/* 落子动画：棋子从上方落下并轻微回弹 */
+@keyframes stone-drop {
+  0% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  55% {
+    transform: scale(0.93);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.05);
   }
   100% {
     transform: scale(1);
+    opacity: 1;
   }
 }
-
-.animate-bounce-in {
-  animation: bounce-in 0.5s ease-out;
+.animate-stone-drop {
+  animation: stone-drop 0.28s cubic-bezier(0.3, 1.2, 0.5, 1) both;
 }
 
-/* 棋盘木纹纹理 */
-body {
-  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+/* 提示落点标记：金色圆环呼吸 */
+@keyframes hint-ping {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.4;
+  }
+}
+.animate-hint-ping {
+  animation: hint-ping 1.2s ease-in-out infinite;
+}
+
+/* 连珠光线：沿获胜五子绘制 */
+@keyframes draw-line {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+.animate-draw-line {
+  animation: draw-line 0.55s 0.1s ease-out both;
+}
+
+@keyframes bounce-in {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); opacity: 1; }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+.animate-bounce-in {
+  animation: bounce-in 0.5s ease-out;
 }
 
 /* 自定义滚动条 */
 ::-webkit-scrollbar {
   width: 6px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #d4a23a;
+  background: #f9a8d4;
   border-radius: 3px;
 }
